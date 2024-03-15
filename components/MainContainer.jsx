@@ -9,6 +9,8 @@ export const MainContainer = () => {
    const nextStep = () => setActive((active) => (active < 4 ? active + 1 : active))
    const prevStep = () => setActive((active) => (active > 0 ? active - 1 : active))
 
+ 
+
    return (
       <>
          <Box sx={{
@@ -64,11 +66,16 @@ export const MainContainer = () => {
                         justifyContent: 'start'
                      }
                   }}>
+                     
                      <StepperStep active={active} setActive={setActive} />
+                     
                   </Box>
 
                   {/** stepper content */}
-                  <StepperContent active={active} nextStep={nextStep} prevStep={prevStep}  />
+                 
+                  {/* <form className="py-4 space-y-4" onSubmit={handleSubmit}> */}
+                     <StepperContent active={active} nextStep={nextStep} prevStep={prevStep}  />
+                  {/* </form> */}
                </Box>
             </Group>
          </Box>

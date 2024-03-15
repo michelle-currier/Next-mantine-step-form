@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "google-spreadsheet": "^3.2.0",
+    "googleapis": "^94.0.0",
     "@mantine/core": "^5.10.5",
     "@mantine/hooks": "^5.10.5",
     "@mantine/next": "^5.10.5",
@@ -17,5 +19,10 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.7.1",
     "react-switch": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.27",
+    "@types/react": "18.2.65",
+    "typescript": "5.4.2"
   }
 }

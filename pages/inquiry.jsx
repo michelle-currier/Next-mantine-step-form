@@ -1,23 +1,71 @@
-import { Box, Group, Input, Stack, Text, Title,  Button } from '@mantine/core'
-import { useMediaQuery } from '@mantine/hooks'
-import React, { useContext, useState } from 'react'
-import { Context } from '../context/Context'
-
-export const StepperOne = () => {
-   const { handleFormDataChange, formData } = useContext(Context)
-   const largeScreen = useMediaQuery('(min-width: 900px)')
-
-   // google sheets
-   const [name, setName] = useState('');
+import {FormEvent, useState} from "react";
+import { Box, Group, Input, Stack, Text, Title, Textarea, Button } from '@mantine/core';
+// const Home: NextPage = () => {
+const InquiryPage = () => {
+    const [name, setName] = useState('');
     const [company, setCompany] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-  
+    const [message, setMessage] = useState('');
 
-    
-   return (
-      <>
-         <Group>
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        let form = {
+            name,
+            company,
+            email,
+            phone,
+            message
+        }
+
+        const rawResponse = await fetch('/api/submit', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(form)
+        });
+        const content = await rawResponse.json();
+
+        // print to screen
+        alert(content.data.tableRange)
+
+        // Reset the form fields
+        setMessage('')
+        setPhone('')
+        setName('')
+        setCompany('')
+        setEmail('')
+    }
+// todo add switch statement to make the steps happen
+// var x:number = 1;
+
+// switch(x){
+//     case 1:
+//     case 2:
+//         console.log("step 1 & step 2");
+//     break;
+//     case 3:
+//         console.log("step 3 success");
+//     break;
+//     default:
+//         console.log("default step 1");
+// }
+    return (
+        <Box sx={{
+            height: '100vh',
+            backgroundColor: 'hsl(217, 100%, 97%)',
+            position: 'relative',
+
+            '@media (min-width: 748px)': {
+               display: 'grid',
+               placeItems: 'center',
+               width: '100%'
+            }
+         }} >
+           <Group>
             {/** form header */}
             <Box>
                <Title order={2} color={'hsl(213, 96%, 18%)'}>Personal info</Title>
@@ -25,48 +73,10 @@ export const StepperOne = () => {
             </Box>
 
             {/** form */}
-            <Stack w={'100%'}>
-               <Box sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '0.5rem',
-
-                  '@media (min-width: 748px)': {
-                     gap: '0.8rem'
-                  }
-               }}>
-                  {/* <Input.Wrapper>
-                     <Text fz={'sm'} fw={largeScreen ? 400 : 500} color={'hsl(213, 96%, 18%)'}>Name</Text>
-                     <Input
-                        name='name'
-                        value={formData.name}
-                        onChange={handleFormDataChange}
-                        size={'md'}
-                        placeholder="e.g. Stephen King"
-                     />
-                  </Input.Wrapper>
-                  <Input.Wrapper>
-                     <Text fz={'sm'} fw={largeScreen ? 400 : 500} color={'hsl(213, 96%, 18%)'}>Email Address</Text>
-                     <Input
-                        name='email'
-                        value={formData.email}
-                        onChange={handleFormDataChange}
-                        size={'md'}
-                        placeholder="e.g. stephenking@lorem.com"
-                     />
-                  </Input.Wrapper>
-                  <Input.Wrapper>
-                     <Text fz={'sm'} fw={largeScreen ? 400 : 500} color={'hsl(213, 96%, 18%)'}>Phone Number</Text>
-                     <Input
-                        name='phone'
-                        value={formData.phone}
-                        onChange={handleFormDataChange}
-                        size={'md'}
-                        placeholder="e.g. +1 234 567 890"
-                     />
-                  </Input.Wrapper> */}
-
-                  {/* <form className="py-4 space-y-4" onSubmit={handleSubmit}> */}
+            <Stack w={'60%'}>
+               
+                 
+                <form className="py-4 space-y-4" onSubmit={handleSubmit}>
                     <div className="flex items-center justify-center">
                     {/* <Input.Wrapper> */}
                         {/* <label htmlFor="name" className="sr-only">Name</label> */}
@@ -114,14 +124,24 @@ export const StepperOne = () => {
                         className="shadow-md focus:ring-indigo-500 focus:border-indigo-500 block w-64 sm:text-md border-gray-300 rounded-md" 
                         placeholder="Your Phone" />
                     </div>
-                   
-                    {/* <div className="flex items-center justify-center">
-                        <Button type="submit" className="flex items-center justify-center text-sm w-64 rounded-md shadow py-3 px-2 text-white ">Save</Button>
+                    <div className="flex items-center justify-center">
+                        <Text htmlFor="message" className="sr-only">Message</Text>
+                        <Textarea 
+                        value={message} 
+                        onChange={e => setMessage(e.target.value)} 
+                        id="message" 
+                        className="shadow-md focus:ring-indigo-500 focus:border-indigo-500 block w-64 sm:text-md border-gray-300 rounded-md" 
+                        placeholder="Your Message" />
                     </div>
-                  </form> */}
-               </Box>
+                    <div className="flex items-center justify-center">
+                        <Button type="submit" className="flex items-center justify-center text-sm w-64 rounded-md shadow py-3 px-2 text-white bg-indigo-600">Save</Button>
+                    </div>
+                </form>
+            
             </Stack>
-         </Group>
-      </>
-   )
+            </Group>
+        </Box>
+    )
 }
+
+export default InquiryPage

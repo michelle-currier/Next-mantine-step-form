@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Group, Image, Text, Title } from '@mantine/core'
+import { Box, Card, Grid, Group, Image, Text, Title, Textarea, Button } from '@mantine/core'
 import { useMediaQuery } from '@mantine/hooks'
 import React, { useContext, useState } from 'react'
 import Switch from 'react-switch'
@@ -7,6 +7,40 @@ import { Context } from '../context/Context'
 export const StepperTwo = () => {
    const { togglePlanTimeChange, handlePlanSelect, plan, monthly } = useContext(Context)
    const largeScreen = useMediaQuery('(min-width: 748px)')
+   
+// google sheets ish
+const [message, setMessage] = useState('');
+
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    let form = {
+        message
+    }
+
+    const rawResponse = await fetch('/api/submit', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(form)
+    });
+    const content = await rawResponse.json();
+
+    // print to screen
+    alert(content.data.tableRange)
+
+    // Reset the form fields
+     setMessage('')
+   //  setPhone('')
+   //  setName('')
+   //  setCompany('')
+   //  setEmail('')
+}
+
+   
 
    return (
       <>
@@ -130,6 +164,21 @@ export const StepperTwo = () => {
                />
                <Text fz={13} fw={500} color={!monthly ? 'hsl(213, 96%, 18%)' : 'hsl(213, 96%, 18%, 0.5)'}>Yearly</Text>
             </Box>
+            <form onSubmit={handleSubmit}>
+            
+                  <div className="flex items-center justify-center">
+                     <Text htmlFor="message" className="sr-only">Message</Text>
+                     <Textarea 
+                        value={message} 
+                        onChange={e => setMessage(e.target.value)} 
+                        id="message" 
+                        className="shadow-md focus:ring-indigo-500 focus:border-indigo-500 block w-64 sm:text-md border-gray-300 rounded-md" 
+                        placeholder="Your Message" />
+                  </div>
+                  <Button type="submit" className="flex items-center justify-center text-sm w-64 rounded-md shadow py-3 px-2 text-white ">Save</Button>
+                  
+              </form>   
+            
          </Group>
       </>
    )

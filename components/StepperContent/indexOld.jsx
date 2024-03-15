@@ -6,53 +6,12 @@ import { StepperFour } from './StepperFour'
 import { StepperOne } from './StepperOne'
 import { StepperThree } from './StepperThree'
 import { StepperTwo } from './StepperTwo'
-// import { StepperOne } from './step1'
 
 export const StepperContent = ({ active, nextStep, prevStep }) => {
 
    const largeScreen = useMediaQuery('(min-width: 900px)')
-
-   // google sheets
- const [name, setName] = useState('');
- const [company, setCompany] = useState('');
- const [email, setEmail] = useState('');
- const [phone, setPhone] = useState('');
- const [message, setMessage] = useState('');
-
-  const handleSubmit = async (e) => {
-   e.preventDefault();
-
-   let form = {
-       name,
-       company,
-       email,
-       phone,
-       message
-   }
-
-   const rawResponse = await fetch('/api/submit', {
-       method: 'POST',
-       headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json'
-       },
-       body: JSON.stringify(form)
-   });
-   const content = await rawResponse.json();
-
-   // print to screen
-   alert(content.data.tableRange)
-
-   // Reset the form fields
-   setMessage('')
-   setPhone('')
-   setName('')
-   setCompany('')
-   setEmail('')
-  }
    return (
       <>
-         <form onSubmit={handleSubmit}>
          <Group sx={{
             position: 'absolute',
             display: 'flex',
@@ -92,7 +51,7 @@ export const StepperContent = ({ active, nextStep, prevStep }) => {
                   }
                }}
             >
-               
+               <p>Hello</p>
                {
                   active === 0 ?
                      <StepperOne /> :
@@ -146,7 +105,6 @@ export const StepperContent = ({ active, nextStep, prevStep }) => {
                   {
                      active === 3 ?
                         <UnstyledButton
-                           type="submit"
                            onClick={nextStep}
                            sx={{
                               backgroundColor: 'hsl(243, 100%, 62%)',
@@ -174,10 +132,8 @@ export const StepperContent = ({ active, nextStep, prevStep }) => {
                            }}
                            radius={largeScreen && 7}
                         >Confirm</UnstyledButton>
-                        // <Button type="submit" className="flex items-center justify-center text-sm w-64 rounded-md shadow py-3 px-2 text-white ">Save</Button>
                         :
                         <UnstyledButton
-                           type="submit"
                            onClick={nextStep}
                            sx={{
                               backgroundColor: 'hsl(213, 96%, 18%)',
@@ -205,13 +161,10 @@ export const StepperContent = ({ active, nextStep, prevStep }) => {
                            }}
                            radius={largeScreen && 7}
                         >Next step</UnstyledButton>
-
-                        
                   }
                </Box>
             </Box>
          </Group>
-         </form>
       </>
    )
 }

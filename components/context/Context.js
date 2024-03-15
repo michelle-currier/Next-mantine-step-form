@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext, useState, FormEvent } from "react";
 
 export const Context = createContext()
 
@@ -58,10 +58,30 @@ export const ContextProvider = ({ children }) => {
    }
 
    const handleFormDataChange = (event) => {
+      // const handleSubmit = async (e) => {
       const { name, value } = event.target
       setFormData({ ...formData, [name]: value })
-   }
 
+   //    e.preventDefault();
+   //    let form = {
+   //       name
+   //    }
+
+   //    const rawResponse = await fetch('/api/submit', {
+   //       method: 'POST',
+   //       headers: {
+   //           'Accept': 'application/json',
+   //           'Content-Type': 'application/json'
+   //       },
+   //       body: JSON.stringify(form)
+   //   });
+   //   const content = await rawResponse.json();
+
+   //   // print to screen
+   //   alert(content.data.tableRange)
+   //   setName('')
+   // }
+   }
    const handlePlanSelect = (index) => {
       setPlan(index)
    }
@@ -80,7 +100,6 @@ export const ContextProvider = ({ children }) => {
       }
    }
 
-
    const data = {
       formData: formData,
       plan: plan,
@@ -93,6 +112,38 @@ export const ContextProvider = ({ children }) => {
       getTotal: getTotal,
    }
 
+   // googlsheets
+   const handleSubmit = async (e) => {
+      e.preventDefault();
+
+      let form = {
+          name,
+          company,
+          email,
+          phone,
+          message
+      }
+
+      const rawResponse = await fetch('/api/submit', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(form)
+      });
+      const content = await rawResponse.json();
+
+      // print to screen
+      alert(content.data.tableRange)
+
+      // Reset the form fields
+      setMessage('')
+      setPhone('')
+      setName('')
+      setCompany('')
+      setEmail('')
+  }
    return (
       <Context.Provider value={data}>
          {children}

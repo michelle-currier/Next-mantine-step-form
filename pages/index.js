@@ -1,5 +1,6 @@
-import { MainContainer } from '@/components/MainContainer'
+import { MainContainer } from './../components/MainContainer'
 import Head from 'next/head'
+import NavBar from './../components/Navbar'
 
 export default function Home() {
   return (
@@ -11,7 +12,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <main>
-         <MainContainer />
+          <NavBar />
+          
+          <MainContainer />
+        
       </main>
     </>
   )
