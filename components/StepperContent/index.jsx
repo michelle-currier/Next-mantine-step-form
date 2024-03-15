@@ -52,7 +52,7 @@ export const StepperContent = ({ active, nextStep, prevStep }) => {
   }
    return (
       <>
-         <form onSubmit={handleSubmit}>
+         {/* <form onSubmit={handleSubmit}> */}
          <Group sx={{
             position: 'absolute',
             display: 'flex',
@@ -211,7 +211,7 @@ export const StepperContent = ({ active, nextStep, prevStep }) => {
                </Box>
             </Box>
          </Group>
-         </form>
+         {/* </form> */}
       </>
    )
 }
