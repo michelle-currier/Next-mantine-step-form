@@ -1,6 +1,6 @@
-import {FormEvent, useState} from "react";
+import { FormEvent, useState} from "react";
 import { Box, Group, Input, Stack, Text, Title, Textarea, Button } from '@mantine/core';
-// const Home: NextPage = () => {
+
 const InquiryPage = () => {
     const [name, setName] = useState('');
     const [company, setCompany] = useState('');
@@ -19,15 +19,19 @@ const InquiryPage = () => {
             message
         }
 
-        const rawResponse = await fetch('/api/submit', {
+        const content = await fetch('/api/submit', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(form)
-        });
-        const content = await rawResponse.json();
+        }).then((response) => {
+            if(response.status >= 400) {
+                alert("Something went wrong")
+            }
+            return response.json()
+        })
 
         // print to screen
         alert(content.data.tableRange)
