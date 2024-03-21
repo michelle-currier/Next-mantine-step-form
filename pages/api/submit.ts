@@ -48,11 +48,12 @@ export default async function handler(
             }
         });
 
-        return res.status(201).json({
+        res.status(201).send({
             data: response.data
         })
     } catch (e) {
         // console.error(e)
+        res.status(400).send({"message": e.message})
         //return res.status(e.code).send({message: e.message})
         // return res.status( statusCode: 500).send( body: {message: 'Something went wrong'})
     }
